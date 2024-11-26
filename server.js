@@ -85,10 +85,10 @@ io.on("connection",function(socket){
     })
 })
 
-server.listen(function(){
+server.listen(3000,function(){
     console.log("Server Started");
 })
 
-
+module.exports = app
 
 
