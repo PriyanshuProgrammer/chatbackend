@@ -22,7 +22,7 @@ app.use(express.json())
 const server = createServer(app);
 const io = new Server(server,{
     cors:{
-        origin:"http://192.168.1.3:5173",
+        origin:"https://chat-liard-zeta-73.vercel.app",
         methods:['POST', 'GET'],
     }
 })
@@ -85,7 +85,7 @@ io.on("connection",function(socket){
     })
 })
 
-server.listen(3000,"192.168.1.3",function(){
+server.listen(function(){
     console.log("Server Started");
 })
 
