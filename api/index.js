@@ -1,5 +1,6 @@
 const express = require('express')
 const {createServer} = require("node:http")
+
 const {Server} = require("socket.io")
 const cors = require("cors")
 const mongoose = require("mongoose")
@@ -16,16 +17,25 @@ const Room = mongoose.model("rooms", roomschema);
 const app = express();
 
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://chat-liard-zeta-73.vercel.app',  // Allow this specific domain
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow these HTTP methods
+    credentials: true  // Allow cookies/credentials in cross-origin requests
+}));
 app.use(express.json())
 
-const server = createServer(app);
-const io = new Server(server,{
-    cors:{
-        origin:"https://chat-liard-zeta-73.vercel.app",
-        methods:['POST', 'GET'],
-    }
-})
+// const server = createServer(app);
+// const io = new Server(server,{
+//     cors:{
+//         origin:"https://chat-liard-zeta-73.vercel.app",
+//         methods:['POST', 'GET'],
+//     }
+// })
+
+const http = require('http').Server(app);
+
+const io = require('socket.io')(http);
+
 
 async function addmessages(obj){
     let roomid;
@@ -88,7 +98,7 @@ io.on("connection",function(socket){
     })
 })
 
-server.listen(3000, function(){
+http.listen(3000, function(){
     console.log("Server Started")
 })
 
