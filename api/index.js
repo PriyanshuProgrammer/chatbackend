@@ -46,47 +46,47 @@ app.get("/",function(req,res){
     res.json({msg:"Hello from backend"})
 })
 
-// app.post('/chat',function(req,res){
-//     let data = req.body
-//     if(data.event == "createroom"){
-//         Room.findOne({room:data.room})
-//         .then(function(dbres){
-//             if(dbres){
-//                 res.send(JSON.stringify({"msg":"Room already exist"}));        
-//             }else{
-//                 let room = new Room({room:data.room});
-//                 room.save()
-//                 .then(function(result){
-//                     res.send(JSON.stringify({"msg":"Room Created Successfully"}));               
-//                 }).catch(function(err){
-//                     res.send(JSON.stringify({"msg":"Error creating the room!!"}));               
-//                 })
-//             }
-//         })
-//     }
-//     else if(data.event == 'joinroom'){
-//         Room.findOne({room:data.room})
-//         .then(function(dbres){
-//             if(dbres){
-//                 let msgarr = dbres.messages
-//                 res.send(JSON.stringify({"msg":"ok","msgarr":msgarr}));               
-//             }else{
-//                 res.send(JSON.stringify({"msg":"fail"}));               
-//             }
-//         })
-//     }
-// })
+app.post('/chat',function(req,res){
+    let data = req.body
+    if(data.event == "createroom"){
+        Room.findOne({room:data.room})
+        .then(function(dbres){
+            if(dbres){
+                res.send(JSON.stringify({"msg":"Room already exist"}));        
+            }else{
+                let room = new Room({room:data.room});
+                room.save()
+                .then(function(result){
+                    res.send(JSON.stringify({"msg":"Room Created Successfully"}));               
+                }).catch(function(err){
+                    res.send(JSON.stringify({"msg":"Error creating the room!!"}));               
+                })
+            }
+        })
+    }
+    else if(data.event == 'joinroom'){
+        Room.findOne({room:data.room})
+        .then(function(dbres){
+            if(dbres){
+                let msgarr = dbres.messages
+                res.send(JSON.stringify({"msg":"ok","msgarr":msgarr}));               
+            }else{
+                res.send(JSON.stringify({"msg":"fail"}));               
+            }
+        })
+    }
+})
 
-// io.on("connection",function(socket){
-//     socket.on("joinroom",function(room){
-//         socket.join(room)
-//     })
+io.on("connection",function(socket){
+    socket.on("joinroom",function(room){
+        socket.join(room)
+    })
 
-//     socket.on("chat",function(obj){
-//         addmessages(obj);
-//         io.to(obj.room).emit("chat",obj.msg);
-//     })
-// })
+    socket.on("chat",function(obj){
+        addmessages(obj);
+        io.to(obj.room).emit("chat",obj.msg);
+    })
+})
 
 server.listen(3000, function(){
     console.log("Server Started")
