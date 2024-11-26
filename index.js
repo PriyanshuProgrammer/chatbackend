@@ -43,6 +43,9 @@ async function addmessages(obj){
     console.log("message added")
 }
 
+app.get("/",function(req,res){
+    res.json({msg:"Hello from backend"})
+})
 
 app.post('/chat',function(req,res){
     let data = req.body
