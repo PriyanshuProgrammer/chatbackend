@@ -4,8 +4,9 @@ const {Server} = require("socket.io")
 const cors = require("cors")
 const mongoose = require("mongoose")
 const { type } = require('node:os')
+require('dotenv').config()
 
-mongoose.connect("mongodb+srv://admin:ElOI40EAnUihKqbR@cluster0.fxyaf.mongodb.net/chatapp")
+mongoose.connect(process.env.MONGO_URL)
 
 const roomschema = new mongoose.Schema({
     room:String,
